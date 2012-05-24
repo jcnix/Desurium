@@ -688,12 +688,17 @@ std::string getCmdStdout(const char* command, int stdErrDest)
 
 std::wstring getDesktopPath(std::wstring extra)
 {
-	std::wstring desktop((wchar_t*) getCmdStdout("xdg-user-dir DESKTOP", 1).c_str());
+	// Convert std::string to std::wstring using std::copy
+	std::string temp(getCmdStdout("xdg-user-dir DESKTOP", 1));
+	std::wstring desktop(temp.length(),L' ');
+	std::copy(temp.begin(), temp.end(), desktop.begin());
+	//std::wstring desktop((wchar_t*) getCmdStdout("xdg-user-dir DESKTOP", 1).c_str());
 	if(!desktop.empty())
 	{
 		desktop += L"/";
 		desktop += extra;
 	}
+	// Do some error checking if desktop is empty
 	return desktop;
 }
 
@@ -855,7 +860,7 @@ bool setupXDGVars()
 	}
 	
 	if (!homeDir)
-		return false;
+		return true;
 	
 	if (getenv("XDG_CONFIG_HOME") == 0)
 	{

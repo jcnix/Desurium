@@ -129,7 +129,8 @@ DesuraJSItemInfo::DesuraJSItemInfo() : DesuraJSBase<DesuraJSItemInfo>("item", "n
 
 	REG_SIMPLE_JS_OBJ_FUNCTION( isItemBusy, DesuraJSItemInfo );
 	REG_SIMPLE_JS_OBJ_FUNCTION( createItemDesktopShortcut, DesuraJSItemInfo );
-	
+	REG_SIMPLE_JS_OBJ_FUNCTION( createItemMenuEntry, DesuraJSItemInfo );
+
 	m_uiValidItemHash = UTIL::MISC::RSHash_CSTR("isItemValid");
 }
 
@@ -457,5 +458,11 @@ bool DesuraJSItemInfo::isItemBusy(UserCore::Item::ItemInfoI* item)
 bool DesuraJSItemInfo::createItemDesktopShortcut(UserCore::Item::ItemInfoI* item)
 {
 	UserCore::Item::ItemHandleI* handle = GetUserCore()->getItemManager()->findItemHandle(item->getId());
-	return handle && handle->createDektopShortcut();
+	return handle && handle->createDesktopShortcut();
+}
+
+bool DesuraJSItemInfo::createItemMenuEntry(UserCore::Item::ItemInfoI* item)
+{
+	UserCore::Item::ItemHandleI* handle = GetUserCore()->getItemManager()->findItemHandle(item->getId());
+	return handle && handle->createMenuEntry();
 }
